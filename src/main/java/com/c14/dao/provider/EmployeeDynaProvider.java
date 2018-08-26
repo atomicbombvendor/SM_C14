@@ -7,69 +7,20 @@ import java.util.Map;
 
 import static com.c14.dao.HrmConstants.EMPLOYEETABLE;
 
+/**
+ * @author ZZ
+ */
 public class EmployeeDynaProvider {
 
     public String selectWithParam(Map<String, Object> params){
-        return new SQL(){
-            {
-                SELECT("*");
-                FROM(EMPLOYEETABLE);
-                if (params.get("employee") != null){
-                    Employee employee = (Employee) params.get("employee");
-                    if (employee.getDept() != null && employee.getDept().getId() != null
-                            && employee.getDept().getId() != 0){
-                        WHERE(" DEPT_ID = #{employee.dept.id} ");
-                    }
-                    if (employee.getJob() != null && employee.getJob().getId() != null &&
-                            employee.getJob().getId() != 0){
-                        WHERE(" JOB_ID = #{employee.job.id} ");
-                    }
-                    if (employee.getName() != null && !employee.getName().equals("")){
-                        WHERE(" NAME LIKE CONCAT('%', #{employee.name} ,'%')");
-                    }
-                    if (employee.getPhone() != null && !employee.getPhone().equals("")){
-                        WHERE(" phone LIKE CONCAT('%', #{employee.phone}, '%')");
-                    }
-                    if (employee.getCardId() != null && !employee.getCardId().equals("")){
-                        WHERE(" card_id LIKE CONCAT('%', #{employee.cardId}, '%')");
-                    }
-                    if (employee.getSex() != null && employee.getSex() != 0){
-                        WHERE(" sex = #{employee.sex}");
-                    }
-                }
-            }
-        }.toString();
+        String selectAll = "*";
+
+        return duplicateCode(selectAll, params).toString();
     }
 
     public String count(Map<String, Object> params){
-        return new SQL(){
-            {
-                SELECT("count(*)");
-                FROM(EMPLOYEETABLE);
-                if (params.get("employee") != null){
-                    Employee employee = (Employee) params.get("employee");
-                    if (employee.getDept() != null && employee.getDept().getId() != null && employee.getDept().getId() != 0){
-                        WHERE(" DEPT_ID = #{employee.dept.id} ");
-                    }
-                    if (employee.getJob() != null && employee.getJob().getId() != null &&
-                            employee.getJob().getId() != 0){
-                        WHERE(" JOB_ID = #{employee.job.id} ");
-                    }
-                    if (employee.getName() != null && !employee.getName().equals("")){
-                        WHERE(" NAME LIKE CONCAT('%', #{employee.name} ,'%')");
-                    }
-                    if (employee.getPhone() != null && !employee.getPhone().equals("")){
-                        WHERE(" phone LIKE CONCAT('%', #{employee.phone}, '%')");
-                    }
-                    if (employee.getCardId() != null && !employee.getCardId().equals("")){
-                        WHERE(" card_id LIKE CONCAT('%', #{employee.cardId}, '%')");
-                    }
-                    if (employee.getSex() != null && employee.getSex() != 0){
-                        WHERE(" sex = #{employee.sex}");
-                    }
-                }
-            }
-        }.toString();
+        String countAll = "count(*)";
+        return duplicateCode(countAll, params).toString();
     }
 
     public String insertEmployee(Employee employee){
@@ -201,5 +152,36 @@ public class EmployeeDynaProvider {
                 WHERE(" id = #{id} ");
             }
         }.toString();
+    }
+
+    private SQL duplicateCode(String selectSql, Map<String, Object> params){
+        return new SQL(){
+            {
+                SELECT(selectSql);
+                FROM(com.c14.dao.HrmConstants.EMPLOYEETABLE);
+                if (params.get("employee") != null){
+                    Employee employee = (Employee) params.get("employee");
+                    if (employee.getDept() != null && employee.getDept().getId() != null && employee.getDept().getId() != 0){
+                        WHERE(" DEPT_ID = #{employee.dept.id} ");
+                    }
+                    if (employee.getJob() != null && employee.getJob().getId() != null &&
+                            employee.getJob().getId() != 0){
+                        WHERE(" JOB_ID = #{employee.job.id} ");
+                    }
+                    if (employee.getName() != null && !employee.getName().equals("")){
+                        WHERE(" NAME LIKE CONCAT('%', #{employee.name} ,'%')");
+                    }
+                    if (employee.getPhone() != null && !employee.getPhone().equals("")){
+                        WHERE(" phone LIKE CONCAT('%', #{employee.phone}, '%')");
+                    }
+                    if (employee.getCardId() != null && !employee.getCardId().equals("")){
+                        WHERE(" card_id LIKE CONCAT('%', #{employee.cardId}, '%')");
+                    }
+                    if (employee.getSex() != null && employee.getSex() != 0){
+                        WHERE(" sex = #{employee.sex}");
+                    }
+                }
+            }
+        };
     }
 }

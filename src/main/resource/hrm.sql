@@ -1,5 +1,5 @@
 #创建数据库hrm_db
-CREATE DATABASE hrm_db3;
+CREATE DATABASE IF NOT EXISTS hrm_db;
 #使用数据库hrm_db
 USE hrm_db;
 #创建表dept_inf
@@ -34,9 +34,10 @@ CREATE TABLE user_inf (
   PRIMARY KEY (ID)
 ) ENGINE=INNODB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 INSERT  INTO user_inf(ID,loginname,PASSWORD,STATUS,createdate,username) VALUES (1,'admin','123456',2,'2016-03-12 09:34:28','超级管理员');
+INSERT  INTO user_inf(ID,loginname,PASSWORD,STATUS,createdate,username) VALUES (2,'root','123456',2,'2016-03-12 09:34:28','超级管理员');
 
 #创建表employee_inf
-DROP TABLE IF employee_inf;
+DROP TABLE IF EXISTS employee_inf;
 CREATE TABLE employee_inf (
   ID INT(11) NOT NULL AUTO_INCREMENT,
   DEPT_ID INT(11) NOT NULL,
@@ -82,6 +83,31 @@ CREATE TABLE notice_inf (
   CONSTRAINT FK_NOTICE_USER FOREIGN KEY (USER_ID) REFERENCES user_inf (ID)
 ) ENGINE=INNODB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
+INSERT INTO notice_inf(TITLE, CONTENT, USER_ID) VALUES('假如生活欺骗了你1', '假如生活欺骗了你，
+不要悲伤，不要心急！
+忧郁的日子里须要镇静：
+相信吧，快乐的日子将会来临！
+心儿永远向往着未来；
+现在却常是忧郁。
+一切都是瞬息，一切都将会过去；
+而那过去了的，就会成为亲切的怀恋。', 2);
+INSERT INTO notice_inf(TITLE, CONTENT, USER_ID) VALUES('假如生活欺骗了你2', '假如生活欺骗了你，
+不要悲伤，不要心急！
+忧郁的日子里须要镇静：
+相信吧，快乐的日子将会来临！
+心儿永远向往着未来；
+现在却常是忧郁。
+一切都是瞬息，一切都将会过去；
+而那过去了的，就会成为亲切的怀恋。', 2);
+INSERT INTO notice_inf(TITLE, CONTENT, USER_ID) VALUES('假如生活欺骗了你3', '假如生活欺骗了你，
+不要悲伤，不要心急！
+忧郁的日子里须要镇静：
+相信吧，快乐的日子将会来临！
+心儿永远向往着未来；
+现在却常是忧郁。
+一切都是瞬息，一切都将会过去；
+而那过去了的，就会成为亲切的怀恋。', 2);
+
 #创建表document_inf
 DROP TABLE IF EXISTS document_inf;
 CREATE TABLE document_inf (
@@ -95,3 +121,5 @@ CREATE TABLE document_inf (
   KEY FK_DOCUMENT_USER (USER_ID),
   CONSTRAINT FK_DOCUMENT_USER FOREIGN KEY (USER_ID) REFERENCES user_inf (ID)
 ) ENGINE=INNODB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+INSERT INTO document_inf(TITLE, filename, REMARK, USER_ID) VALUES('文件1', '文件名1', '文件描述1', 2);
